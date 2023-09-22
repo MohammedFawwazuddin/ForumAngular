@@ -55,7 +55,7 @@ public class SecurityConfiguration {
 
             .authorizeHttpRequests((requests) -> requests
 
-            .requestMatchers("/forum/register").permitAll()
+            .requestMatchers("/forum/register","/forum/post/{id}").permitAll()
 
             .anyRequest().authenticated())
 

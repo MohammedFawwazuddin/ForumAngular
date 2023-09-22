@@ -76,7 +76,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
-@Controller
+@RestController
 @RequestMapping("/forum")
 @CrossOrigin(origins = {"http://localhost:38955"})
 
@@ -150,7 +150,7 @@ public class UserProfileController {
 	@GetMapping("/post/{id}")
 	@ResponseBody // This annotation tells Spring to treat the return value as the response body (JSON)
 
-	public String postDetail(@PathVariable int id, Model model)
+	public Optional<Post> postDetail(@PathVariable int id, Model model)
 			throws ResourceNotFoundException {
 		Optional<Post> post = postRepository.findById(id);
 		if (post.isEmpty()) {
@@ -164,7 +164,7 @@ public class UserProfileController {
 
 		int numLikes = likeCRUDRepository.countByLikeIdPost(post.get());
 		model.addAttribute("likeCount", numLikes);
-		return "forum/postDetail";
+		return post;
 	}
 
 	@PostMapping("/post/{id}/like")
